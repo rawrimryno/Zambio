@@ -50,9 +50,9 @@ public class PlayerController : MonoBehaviour {
 
     void OnCollisionEnter( Collision cInfo )
     {
-        if (cInfo.collider.CompareTag("PowerUp"))
+        if ( gc.isPowerUp(cInfo.collider) )
         {
-            tempPowerUp = gc.getPowerUp(cInfo.gameObject.name);
+            tempPowerUp = gc.getPowerUp(cInfo.collider.tag);
             PowerUps.Add(tempPowerUp);
             setPowerUp(tempPowerUp);
             tempPowerUp.Id = -1; // Not valid

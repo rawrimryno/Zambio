@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameControllerSingleton : ScriptableObject
 {
@@ -14,6 +15,8 @@ public class GameControllerSingleton : ScriptableObject
         public string desc;
     }
 
+    private Dictionary<string, PowerUp> powerUpDict = new Dictionary<string, PowerUp>();
+
     public static GameControllerSingleton get()
     {
         if (Instance == null)
@@ -24,9 +27,21 @@ public class GameControllerSingleton : ScriptableObject
 
         return Instance;
     }
-    // Use this for initialization
+    // Use this for initialization 
     public void Start()
     {
+        // Hack Method until they are put into text files
+        PowerUp tempPowerUp;
+        tempPowerUp.desc = "The fire power-up!  It does firey things....";
+        tempPowerUp.Id = 1;
+        tempPowerUp.sp = null;
+        tempPowerUp.alias = "Fire";
+        powerUpDict.Add("Fire", tempPowerUp);
+        tempPowerUp.desc = "Allows you to jump a higher!";
+        tempPowerUp.Id = 2;
+        tempPowerUp.sp = null;
+        tempPowerUp.alias = "SuperJump";
+        powerUpDict.Add("SuperJump", tempPowerUp);
 
     }
 
@@ -38,27 +53,24 @@ public class GameControllerSingleton : ScriptableObject
 
     }
 
+    public void loadPowerUps( TextAsset powerUpFile )
+    {
+        //Load info from file not sure on C# and TextAsset, will start later
+    }
+
+    public bool isPowerUp( Component someComp )
+    {
+        return powerUpDict.ContainsKey(someComp.tag);
+    }
+
     public PowerUp getPowerUp( string name )
     {
         PowerUp reward;
-        reward = new PowerUp();
-        // I think a dictionary is what we need here, but I need to look into it more,
-        // so here is something that should work, albeit outdated
-        if ( name == "Fire")
+        bool success;
+        success = powerUpDict.TryGetValue(name, out reward);
+        if(!success)
         {
-            reward.desc = "The fire power-up!  It does firey things....";
-            reward.Id = 1;
-            reward.sp = null;
-            reward.alias = "Fire";
-        }
-        else if ( name == "SuperJump") {
-            reward.desc = "Allows you to jump a higher!";
-            reward.Id = 2;
-            reward.sp = null;
-            reward.alias = "SuperJump";
-        }
-        else
-        {
+            Debug.Log("getPowerUp:  Powerup not found!");
             reward.desc = "Default";
             reward.sp = null;
             reward.alias = "Default";
