@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIntendo Zombies.CSharp.Plugins", "NIntendo Zombies.CSharp.Plugins.csproj", "{73AC98C0-465A-CE81-A24A-296EC0D4C36F}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIntendo Zombies.CSharp", "NIntendo Zombies.CSharp.csproj", "{1CCF1FB8-DA70-E34B-6450-2A22644F01B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIntendo Zombies.CSharp.Editor", "NIntendo Zombies.CSharp.Editor.csproj", "{3B157A0E-6EF4-75DE-9A76-F6CABE318244}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +13,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{73AC98C0-465A-CE81-A24A-296EC0D4C36F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73AC98C0-465A-CE81-A24A-296EC0D4C36F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73AC98C0-465A-CE81-A24A-296EC0D4C36F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73AC98C0-465A-CE81-A24A-296EC0D4C36F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1CCF1FB8-DA70-E34B-6450-2A22644F01B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1CCF1FB8-DA70-E34B-6450-2A22644F01B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CCF1FB8-DA70-E34B-6450-2A22644F01B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CCF1FB8-DA70-E34B-6450-2A22644F01B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B157A0E-6EF4-75DE-9A76-F6CABE318244}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B157A0E-6EF4-75DE-9A76-F6CABE318244}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B157A0E-6EF4-75DE-9A76-F6CABE318244}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B157A0E-6EF4-75DE-9A76-F6CABE318244}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

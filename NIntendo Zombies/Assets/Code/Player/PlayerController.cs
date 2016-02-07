@@ -3,9 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
+
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour {
-    Rigidbody rb;
-    GameControllerSingleton gc;
+
+    private Rigidbody rb;
+    private GameControllerSingleton gc;
 
     private List<GameControllerSingleton.PowerUp> PowerUps;
 
@@ -39,6 +42,14 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetKey(KeyCode.S))
         {
             rb.AddForce(-forwardScalar * Vector3.forward);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            rb.AddForce(-forwardScalar * Vector3.right);
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            rb.AddForce(-forwardScalar * Vector3.left);
         }
         if (Input.GetKeyDown(KeyCode.Space)) {
             if (Math.Abs(rb.velocity.y) < 0.1)
