@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 public class GameControllerSingleton : ScriptableObject
 {
@@ -8,14 +9,13 @@ public class GameControllerSingleton : ScriptableObject
 
     public struct PowerUp
     {
-        
         public Sprite sp;
         public string alias;
         public int Id;
         public string desc;
     }
 
-    private Dictionary<string, PowerUp> powerUpDict = new Dictionary<string, PowerUp>();
+    private Dictionary<string, PowerUp> powerUpDict;
 
     public static GameControllerSingleton get()
     {
@@ -27,22 +27,14 @@ public class GameControllerSingleton : ScriptableObject
 
         return Instance;
     }
-    // Use this for initialization 
-    public void Start()
-    {
-        // Hack Method until they are put into text files
-        PowerUp tempPowerUp;
-        tempPowerUp.desc = "The fire power-up!  It does firey things....";
-        tempPowerUp.Id = 1;
-        tempPowerUp.sp = null;
-        tempPowerUp.alias = "Fire";
-        powerUpDict.Add("Fire", tempPowerUp);
-        tempPowerUp.desc = "Allows you to jump a higher!";
-        tempPowerUp.Id = 2;
-        tempPowerUp.sp = null;
-        tempPowerUp.alias = "SuperJump";
-        powerUpDict.Add("SuperJump", tempPowerUp);
 
+    // Public tempPowerUp for use throughout.  Set to -1 when done
+    public PowerUp tempPowerUp;
+
+    // Use this for initialization 
+    public void Start() { 
+
+        powerUpDict = new Dictionary<string, PowerUp>();
     }
 
     // Update is called once per frame
@@ -55,7 +47,21 @@ public class GameControllerSingleton : ScriptableObject
 
     public void loadPowerUps( TextAsset powerUpFile )
     {
-        //Load info from file not sure on C# and TextAsset, will start later
+        string alias, desc;
+        int id;
+        StringReader sr = new StringReader(powerUpFile.text);
+        while ( (alias = sr.ReadLine()) != null ){
+            if ( (desc = sr.ReadLine()) != null)
+            {
+                id = int.Parse(sr.ReadLine());
+                tempPowerUp.alias = alias;
+                tempPowerUp.desc = desc;
+                //Associate Sprite
+                tempPowerUp.sp = null;
+                tempPowerUp.Id = id;
+                powerUpDict.Add(alias,tempPowerUp);
+            }
+        }
     }
 
     public bool isPowerUp( Component someComp )

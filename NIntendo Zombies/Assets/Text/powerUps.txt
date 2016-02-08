@@ -1,0 +1,9 @@
+SuperJump
+Jump higher!
+1
+BigMushroom
+Bigger, taller, faster, stronger!
+2
+Fire
+Gives your attacks a firey flavor.
+3
