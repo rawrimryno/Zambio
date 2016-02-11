@@ -6,12 +6,15 @@ public class PipeSpawner : MonoBehaviour {
 
     public GameObject enemy1; // Enemy Prefab to spawn
     public int e1Count;
-    public float e1Time, yForce;
+    public float e1Time, yForce, initY;
     public List<GameObject> enemyList;
 
     private Rigidbody enemyRB;
 
-	// Use this for initialization
+	void Awake()
+    {
+
+    }
 	void Start () {
         InvokeRepeating("Spawn", e1Time, e1Time);
         if ( yForce > 0)
@@ -22,10 +25,10 @@ public class PipeSpawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Spawn () {
-        Vector3 dy = new Vector3 (0,-1,0);
+        Vector3 dy = new Vector3 (0,initY,0);
         if (gameObject.CompareTag("UpPipe"))
         {
-            dy *= -2;
+            dy *= -1;
         }
         Instantiate(enemy1, transform.position+dy, transform.rotation);
 	}

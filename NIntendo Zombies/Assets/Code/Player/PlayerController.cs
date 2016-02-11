@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>(); 
         gc = GameControllerSingleton.get();
         if (forwardScalar <= 0)
         {
