@@ -15,7 +15,7 @@ GameObject:
   - 54: {fileID: 5443984}
   m_Layer: 0
   m_Name: PlaceHolderEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -91,7 +91,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 230171cba5d4c2c47bff29fdd137b63a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsUp: 0
+  yForce: 20
   dY: 3
+  rotScal: 0
 --- !u!136 &13673334
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -131,6 +134,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: dY
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: yForce
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: rotScal
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

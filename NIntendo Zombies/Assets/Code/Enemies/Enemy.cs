@@ -3,19 +3,19 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour {
     private GameControllerSingleton gc;
-    private Collider mCollider;
+    private Collider myCollider;
     private Rigidbody rb;
 
     private bool hasExited=false;
-    private bool needsUp = false;
+    public bool needsUp = false;
 
-    public float dY;
+    public float yForce, dY, rotScal;
 
 
 	// Use this for initialization
 	void Start () {
         gc = GameControllerSingleton.get();
-        mCollider = GetComponent<Collider>();
+        myCollider = GetComponent<Collider>();
         rb = GetComponent<Rigidbody>();
         if (dY < 0)
             dY = 1;
@@ -25,21 +25,16 @@ public class Enemy : MonoBehaviour {
 	void Update () {
         if ( !hasExited )
         {
-            mCollider.isTrigger = false;
-        }
-        if ( needsUp )
-        {
-            transform.position = new Vector3(0, transform.position.y + dY, 0);
+            myCollider.isTrigger = false;
         }
 	}
 
     void onTriggerEnter( Collider other )
     {
-        if(other.CompareTag("UpPipe"))
+        if (other.CompareTag("UpPipe"))
         {
             needsUp = true;
         }
-       
     }
 
     void onTriggerExit( Collider other)
@@ -49,6 +44,7 @@ public class Enemy : MonoBehaviour {
             needsUp = false;
         }
         hasExited = true;
+        //myCollider.isTrigger = true;
     }
 
 }

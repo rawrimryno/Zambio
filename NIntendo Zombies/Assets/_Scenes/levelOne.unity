@@ -85,6 +85,74 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &9840993
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1474171588}
+    m_Modifications:
+    - target: {fileID: 465326, guid: f7e157faf360cfa4b88ad9d5ff87e545, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 3.797236
+      objectReference: {fileID: 0}
+    - target: {fileID: 465326, guid: f7e157faf360cfa4b88ad9d5ff87e545, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 465326, guid: f7e157faf360cfa4b88ad9d5ff87e545, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -7.645
+      objectReference: {fileID: 0}
+    - target: {fileID: 465326, guid: f7e157faf360cfa4b88ad9d5ff87e545, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 465326, guid: f7e157faf360cfa4b88ad9d5ff87e545, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 465326, guid: f7e157faf360cfa4b88ad9d5ff87e545, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 465326, guid: f7e157faf360cfa4b88ad9d5ff87e545, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: -0.00000016292068
+      objectReference: {fileID: 0}
+    - target: {fileID: 465326, guid: f7e157faf360cfa4b88ad9d5ff87e545, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11446930, guid: f7e157faf360cfa4b88ad9d5ff87e545, type: 2}
+      propertyPath: yForce
+      value: -20
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6584990, guid: f7e157faf360cfa4b88ad9d5ff87e545, type: 2}
+  m_ParentPrefab: {fileID: 100100000, guid: f7e157faf360cfa4b88ad9d5ff87e545, type: 2}
+  m_IsPrefabParent: 0
+--- !u!4 &9840994 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 465326, guid: f7e157faf360cfa4b88ad9d5ff87e545, type: 2}
+  m_PrefabInternal: {fileID: 9840993}
+--- !u!1 &9840995 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 110132, guid: f7e157faf360cfa4b88ad9d5ff87e545, type: 2}
+  m_PrefabInternal: {fileID: 9840993}
+--- !u!136 &9840996
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 9840995}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.1967181
+  m_Height: 1.3201649
+  m_Direction: 1
+  m_Center: {x: 0.0000007748603, y: 0.16008258, z: 0.00000023841855}
 --- !u!1 &122993908
 GameObject:
   m_ObjectHideFlags: 0
@@ -778,7 +846,21 @@ MonoBehaviour:
   enemy1: {fileID: 123672, guid: c0256493293455d4ca66befe75562c5d, type: 2}
   e1Count: 0
   e1Time: 7
+  yForce: 0
   enemyList: []
+--- !u!136 &924038292
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 924038290}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.1967181
+  m_Height: 1.3201649
+  m_Direction: 1
+  m_Center: {x: 0.000001013279, y: 0.16008261, z: 0.00000047683713}
 --- !u!1 &985742469
 GameObject:
   m_ObjectHideFlags: 0
@@ -933,9 +1015,49 @@ Prefab:
       propertyPath: m_Name
       value: Terrain
       objectReference: {fileID: 0}
+    - target: {fileID: 480232, guid: 800b644e9f85b6b4eb429c3b3b5b0ce7, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 480232, guid: 800b644e9f85b6b4eb429c3b3b5b0ce7, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 480232, guid: 800b644e9f85b6b4eb429c3b3b5b0ce7, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 800b644e9f85b6b4eb429c3b3b5b0ce7, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1474171587
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1474171588}
+  m_Layer: 0
+  m_Name: EnemySpawnPointUpPipe
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1474171588
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1474171587}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: -0.00000016292068}
+  m_LocalPosition: {x: 1.8512733, y: 1, z: 2.6100001}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 9840994}
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
 --- !u!1 &1634520711
 GameObject:
   m_ObjectHideFlags: 0
