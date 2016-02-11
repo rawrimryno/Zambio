@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 
 public class GameControllerSingleton : ScriptableObject
 {
@@ -7,12 +9,13 @@ public class GameControllerSingleton : ScriptableObject
 
     public struct PowerUp
     {
-        
         public Sprite sp;
         public string alias;
         public int Id;
         public string desc;
     }
+
+    private Dictionary<string, PowerUp> powerUpDict;
 
     public static GameControllerSingleton get()
     {
@@ -24,10 +27,14 @@ public class GameControllerSingleton : ScriptableObject
 
         return Instance;
     }
-    // Use this for initialization
-    public void Start()
-    {
 
+    // Public tempPowerUp for use throughout.  Set to -1 when done
+    public PowerUp tempPowerUp;
+
+    // Use this for initialization 
+    public void Start() { 
+
+        powerUpDict = new Dictionary<string, PowerUp>();
     }
 
     // Update is called once per frame
@@ -38,27 +45,38 @@ public class GameControllerSingleton : ScriptableObject
 
     }
 
+    public void loadPowerUps( TextAsset powerUpFile )
+    {
+        string alias, desc;
+        int id;
+        StringReader sr = new StringReader(powerUpFile.text);
+        while ( (alias = sr.ReadLine()) != null ){
+            if ( (desc = sr.ReadLine()) != null)
+            {
+                id = int.Parse(sr.ReadLine());
+                tempPowerUp.alias = alias;
+                tempPowerUp.desc = desc;
+                //Associate Sprite
+                tempPowerUp.sp = null;
+                tempPowerUp.Id = id;
+                powerUpDict.Add(alias,tempPowerUp);
+            }
+        }
+    }
+
+    public bool isPowerUp( Component someComp )
+    {
+        return powerUpDict.ContainsKey(someComp.tag);
+    }
+
     public PowerUp getPowerUp( string name )
     {
         PowerUp reward;
-        reward = new PowerUp();
-        // I think a dictionary is what we need here, but I need to look into it more,
-        // so here is something that should work, albeit outdated
-        if ( name == "Fire")
+        bool success;
+        success = powerUpDict.TryGetValue(name, out reward);
+        if(!success)
         {
-            reward.desc = "The fire power-up!  It does firey things....";
-            reward.Id = 1;
-            reward.sp = null;
-            reward.alias = "Fire";
-        }
-        else if ( name == "SuperJump") {
-            reward.desc = "Allows you to jump a higher!";
-            reward.Id = 2;
-            reward.sp = null;
-            reward.alias = "SuperJump";
-        }
-        else
-        {
+            Debug.Log("getPowerUp:  Powerup not found!");
             reward.desc = "Default";
             reward.sp = null;
             reward.alias = "Default";

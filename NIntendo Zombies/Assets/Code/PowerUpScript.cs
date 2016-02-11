@@ -2,12 +2,12 @@
 using System.Collections;
 
 public class PowerUpScript : MonoBehaviour {
-    Rigidbody rb;
-    GameControllerSingleton gameController;
+    private Rigidbody rb;
+    private GameControllerSingleton gameController;
+    private float initY, currY;
     public float initTorque = 40;
     public float initYForce = 5;
     public float k = 3;
-    private float initY, currY;
 
 	// Use this for initialization
 	void Start () {

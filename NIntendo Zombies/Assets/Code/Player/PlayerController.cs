@@ -4,16 +4,15 @@ using System.Collections.Generic;
 using System;
 
 public class PlayerController : MonoBehaviour {
-    Rigidbody rb;
-    GameControllerSingleton gc;
+    private Rigidbody rb;
+    private GameControllerSingleton gc;
 
     private List<GameControllerSingleton.PowerUp> PowerUps;
 
-    private GameControllerSingleton.PowerUp tempPowerUp;
-
     private bool hasFire, hasJump;
 
-    public float forwardScalar, jumpScalar;
+    [SerializeField]
+    public float forwardScalar, jumpScalar, turnSpeed;
 
 	// Use this for initialization
 	void Start () {
@@ -29,16 +28,28 @@ public class PlayerController : MonoBehaviour {
         }
         PowerUps = new List<GameControllerSingleton.PowerUp>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	    if(Input.GetKey(KeyCode.W))
+
+    // Update is called once per frame
+    void Update() {
+        if ( rb.angularVelocity.magnitude < 0.2)
         {
-            rb.AddForce(forwardScalar * Vector3.forward);
+            rb.angularVelocity = Vector3.zero;
+        }
+        if (Input.GetKey(KeyCode.W))
+        {
+            rb.AddRelativeForce(forwardScalar * Vector3.forward);
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            rb.AddTorque(-Vector3.up * turnSpeed);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            rb.AddTorque(Vector3.up * turnSpeed);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            rb.AddForce(-forwardScalar * Vector3.forward);
+            rb.AddRelativeForce(-forwardScalar * Vector3.forward);
         }
         if (Input.GetKeyDown(KeyCode.Space)) {
             if (Math.Abs(rb.velocity.y) < 0.1)
@@ -50,12 +61,12 @@ public class PlayerController : MonoBehaviour {
 
     void OnCollisionEnter( Collision cInfo )
     {
-        if (cInfo.collider.CompareTag("PowerUp"))
+        if ( gc.isPowerUp(cInfo.collider) )
         {
-            tempPowerUp = gc.getPowerUp(cInfo.gameObject.name);
-            PowerUps.Add(tempPowerUp);
-            setPowerUp(tempPowerUp);
-            tempPowerUp.Id = -1; // Not valid
+            gc.tempPowerUp = gc.getPowerUp(cInfo.collider.tag);
+            PowerUps.Add(gc.tempPowerUp);
+            setPowerUp(gc.tempPowerUp);
+            gc.tempPowerUp.Id = -1; // Not valid
         }
     }
 

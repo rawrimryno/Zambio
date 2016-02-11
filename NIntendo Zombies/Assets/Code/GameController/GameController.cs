@@ -2,15 +2,18 @@
 using System.Collections;
 
 public class GameController : MonoBehaviour {
-    GameControllerSingleton gameController;
+    GameControllerSingleton gc; //GameController
+    public TextAsset powerUpText;
 
 	// Use this for initialization
 	 void Start () {
-        gameController = GameControllerSingleton.get();
-	}
+        gc = GameControllerSingleton.get();
+        gc.loadPowerUps(powerUpText);
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        gameController.Update();
-	}
+        gc.Update();
+
+    }
 }
