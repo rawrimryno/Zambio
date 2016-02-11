@@ -73,6 +73,8 @@
     <Compile Include="Assets\Code\Enemies\PipeSpawner.cs" />
     <Compile Include="Assets\Code\GameController\GameController.cs" />
     <Compile Include="Assets\Code\GameController\GameControllerSingleton.cs" />
+    <Compile Include="Assets\Code\Player\CameraFollow.cs" />
+    <Compile Include="Assets\Code\Player\Inventory.cs" />
     <Compile Include="Assets\Code\Player\PlayerController.cs" />
     <Compile Include="Assets\Code\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Code\PowerUpScript.cs" />

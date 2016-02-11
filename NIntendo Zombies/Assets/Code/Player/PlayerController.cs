@@ -6,38 +6,45 @@ using System;
 public class PlayerController : MonoBehaviour {
     private Rigidbody rb;
     private GameControllerSingleton gc;
+    private Inventory myInv;
 
-    private List<GameControllerSingleton.PowerUp> PowerUps;
+    private Dictionary<string, bool> hasPowerUp;
 
-    private bool hasFire, hasJump;
+    public float moveSpeed, jumpScalar, turnSpeed, superJumpMult;
 
-    [SerializeField]
-    public float forwardScalar, jumpScalar, turnSpeed;
-
+    void Awake()
+    {
+        hasPowerUp = new Dictionary<string, bool>();
+    }
 	// Use this for initialization
 	void Start () {
         rb = GetComponent<Rigidbody>(); 
         gc = GameControllerSingleton.get();
-        if (forwardScalar <= 0)
+        myInv = GetComponent<Inventory>();
+        if (moveSpeed <= 0)
         {
-            forwardScalar = 3;
+            moveSpeed = 3;
         }
         if (jumpScalar <= 0)
         {
             jumpScalar = 3;
         }
-        PowerUps = new List<GameControllerSingleton.PowerUp>();
 	}
 
     // Update is called once per frame
     void Update() {
-        if ( rb.angularVelocity.magnitude < 0.2)
+
+	}
+
+    void FixedUpdate()
+    {
+        if (rb.angularVelocity.magnitude < 0.2)
         {
             rb.angularVelocity = Vector3.zero;
         }
         if (Input.GetKey(KeyCode.W))
         {
-            rb.AddRelativeForce(forwardScalar * Vector3.forward);
+            rb.AddForce(moveSpeed * Vector3.forward);
         }
         if (Input.GetKey(KeyCode.A))
         {
@@ -49,36 +56,24 @@ public class PlayerController : MonoBehaviour {
         }
         if (Input.GetKey(KeyCode.S))
         {
-            rb.AddRelativeForce(-forwardScalar * Vector3.forward);
+            rb.AddForce(-moveSpeed * Vector3.forward);
         }
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetButtonDown("Jump"))
+        {
             if (Math.Abs(rb.velocity.y) < 0.1)
             {
-                rb.AddForce( (hasJump ? 2 : 1) * jumpScalar * Vector3.up);
+                rb.AddForce((hasPowerUp.ContainsKey("SuperJump") ? superJumpMult : 1) * jumpScalar * Vector3.up);
             }
         }
-	}
-
-    void OnCollisionEnter( Collision cInfo )
-    {
-        if ( gc.isPowerUp(cInfo.collider) )
-        {
-            gc.tempPowerUp = gc.getPowerUp(cInfo.collider.tag);
-            PowerUps.Add(gc.tempPowerUp);
-            setPowerUp(gc.tempPowerUp);
-            gc.tempPowerUp.Id = -1; // Not valid
-        }
     }
 
-    void setPowerUp( GameControllerSingleton.PowerUp check)
+    public void setPowerUp(GameControllerSingleton.PowerUp check)
     {
-        switch( check.Id ) {
-            case 1:
-                hasFire = true; break;
-            case 2:
-                hasJump = true; break;
-            default:
-                Debug.Log("SetPowerUp Found something weird."); break;
-        }
+        hasPowerUp.Add(check.alias, true);
     }
+    public bool removePowerUp(string name)
+    {
+        return hasPowerUp.Remove(name);
+    }
+
 }
