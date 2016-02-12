@@ -30,7 +30,7 @@ public class PowerUpScript : MonoBehaviour {
         rb.AddRelativeForce(0, -(currY - initY) * k, 0);
     }
 
-    void OnCollisionEnter(Collision cInfo)
+    void OnCollisionExit(Collision cInfo)
     {
         if (cInfo.collider.CompareTag("Player"))
         {

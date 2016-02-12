@@ -2,12 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEditor;
 
 public class PlayerController : MonoBehaviour {
     private Rigidbody rb;
     private GameControllerSingleton gc;
-    private Inventory myInv;
+    public Inventory myInv;
+    public TextAsset FirstSaveFile;
 
+    //                <powerup.alias, true/false>
     private Dictionary<string, bool> hasPowerUp;
 
     public float moveSpeed, jumpScalar, turnSpeed, superJumpMult;
@@ -15,12 +18,13 @@ public class PlayerController : MonoBehaviour {
     void Awake()
     {
         hasPowerUp = new Dictionary<string, bool>();
+        rb = GetComponent<Rigidbody>();
+        gc = GameControllerSingleton.get();
+        myInv = GetComponent<Inventory>();
     }
 	// Use this for initialization
 	void Start () {
-        rb = GetComponent<Rigidbody>(); 
-        gc = GameControllerSingleton.get();
-        myInv = GetComponent<Inventory>();
+
         if (moveSpeed <= 0)
         {
             moveSpeed = 3;
@@ -33,7 +37,10 @@ public class PlayerController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            gc.SaveState( FirstSaveFile, this );
+        }
 	}
 
     void FixedUpdate()
@@ -67,13 +74,34 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+
+
+
+    // Checks to see if the value is already in the dictionary with TryGetValue
+    // Then Adds it if it is not.
     public void setPowerUp(GameControllerSingleton.PowerUp check)
     {
-        hasPowerUp.Add(check.alias, true);
+        bool val;
+        if (!hasPowerUp.TryGetValue(check.alias, out val))
+        {
+            hasPowerUp.Add(check.alias, true);
+        }
     }
+
+    // Uses the dictionary remove method to remove our AppliedPowerUp
     public bool removePowerUp(string name)
     {
         return hasPowerUp.Remove(name);
+    }
+
+    // Check to see if a player has a powerup,
+    // targetPC - Player to check, self for player script is attached to
+    //          -                ; expandable for multiplayer =D
+    // returns if the player has the powerup in their hasPowerUp Dictionary
+    public bool plrHasPowerUp( PlayerController targetPC, string name )
+    {
+        bool val;
+        return hasPowerUp.TryGetValue(name, out val);
     }
 
 }
