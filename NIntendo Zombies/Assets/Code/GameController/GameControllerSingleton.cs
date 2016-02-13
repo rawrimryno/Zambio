@@ -6,6 +6,15 @@ using System.IO;
 public class GameControllerSingleton : ScriptableObject
 {
     private static GameControllerSingleton Instance;
+    private Inventory plr1Inv;
+
+    public class GameState
+    {
+        // Property Getter and Setter, See C# Tutorial Slides from Class
+        public int Level { get; private set; }
+        public int Wave { get; private set; }
+
+    }
 
     public struct PowerUp
     {
@@ -45,6 +54,14 @@ public class GameControllerSingleton : ScriptableObject
 
     }
 
+    // Save/Load State
+    public void SaveState(TextAsset saveFile, PlayerController pc)
+    {
+        Debug.Log("Calling GC::SaveState");
+        pc.myInv.saveContents(saveFile);
+
+    }
+
     public void loadPowerUps( TextAsset powerUpFile )
     {
         string alias, desc;
@@ -66,12 +83,13 @@ public class GameControllerSingleton : ScriptableObject
 
     public bool isPowerUp( Component someComp )
     {
-        return powerUpDict.ContainsKey(someComp.tag);
+        bool result = powerUpDict.ContainsKey(someComp.tag);
+        return result;
     }
 
     public PowerUp getPowerUp( string name )
     {
-        PowerUp reward;
+        PowerUp reward = new PowerUp();
         bool success;
         success = powerUpDict.TryGetValue(name, out reward);
         if(!success)
@@ -83,5 +101,10 @@ public class GameControllerSingleton : ScriptableObject
             reward.Id = -1;
         }
         return reward;
+    }
+
+    public void saveText( string fName, string msg)
+    {
+        File.WriteAllText(Application.dataPath + "/text/" + fName + ".txt", msg );
     }
 }

@@ -2,42 +2,56 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEditor;
 
 public class PlayerController : MonoBehaviour {
     private Rigidbody rb;
     private GameControllerSingleton gc;
+    public Inventory myInv;
+    public TextAsset FirstSaveFile;
 
-    private List<GameControllerSingleton.PowerUp> PowerUps;
+    //                <powerup.alias, true/false>
+    private Dictionary<string, bool> hasPowerUp;
 
-    private bool hasFire, hasJump;
+    public float moveSpeed, jumpScalar, turnSpeed, superJumpMult;
 
-    [SerializeField]
-    public float forwardScalar, jumpScalar, turnSpeed;
-
-	// Use this for initialization
-	void Start () {
+    void Awake()
+    {
+        hasPowerUp = new Dictionary<string, bool>();
         rb = GetComponent<Rigidbody>();
         gc = GameControllerSingleton.get();
-        if (forwardScalar <= 0)
+        myInv = GetComponent<Inventory>();
+    }
+	// Use this for initialization
+	void Start () {
+
+        if (moveSpeed <= 0)
         {
-            forwardScalar = 3;
+            moveSpeed = 3;
         }
         if (jumpScalar <= 0)
         {
             jumpScalar = 3;
         }
-        PowerUps = new List<GameControllerSingleton.PowerUp>();
 	}
 
     // Update is called once per frame
     void Update() {
-        if ( rb.angularVelocity.magnitude < 0.2)
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            gc.SaveState( FirstSaveFile, this );
+        }
+	}
+
+    void FixedUpdate()
+    {
+        if (rb.angularVelocity.magnitude < 0.2)
         {
             rb.angularVelocity = Vector3.zero;
         }
         if (Input.GetKey(KeyCode.W))
         {
-            rb.AddRelativeForce(forwardScalar * Vector3.forward);
+            rb.AddForce(moveSpeed * Vector3.forward);
         }
         if (Input.GetKey(KeyCode.A))
         {
@@ -49,36 +63,45 @@ public class PlayerController : MonoBehaviour {
         }
         if (Input.GetKey(KeyCode.S))
         {
-            rb.AddRelativeForce(-forwardScalar * Vector3.forward);
+            rb.AddForce(-moveSpeed * Vector3.forward);
         }
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetButtonDown("Jump"))
+        {
             if (Math.Abs(rb.velocity.y) < 0.1)
             {
-                rb.AddForce( (hasJump ? 2 : 1) * jumpScalar * Vector3.up);
+                rb.AddForce((hasPowerUp.ContainsKey("SuperJump") ? superJumpMult : 1) * jumpScalar * Vector3.up);
             }
         }
-	}
+    }
 
-    void OnCollisionEnter( Collision cInfo )
+
+
+
+    // Checks to see if the value is already in the dictionary with TryGetValue
+    // Then Adds it if it is not.
+    public void setPowerUp(GameControllerSingleton.PowerUp check)
     {
-        if ( gc.isPowerUp(cInfo.collider) )
+        bool val;
+        if (!hasPowerUp.TryGetValue(check.alias, out val))
         {
-            gc.tempPowerUp = gc.getPowerUp(cInfo.collider.tag);
-            PowerUps.Add(gc.tempPowerUp);
-            setPowerUp(gc.tempPowerUp);
-            gc.tempPowerUp.Id = -1; // Not valid
+            hasPowerUp.Add(check.alias, true);
         }
     }
 
-    void setPowerUp( GameControllerSingleton.PowerUp check)
+    // Uses the dictionary remove method to remove our AppliedPowerUp
+    public bool removePowerUp(string name)
     {
-        switch( check.Id ) {
-            case 1:
-                hasFire = true; break;
-            case 2:
-                hasJump = true; break;
-            default:
-                Debug.Log("SetPowerUp Found something weird."); break;
-        }
+        return hasPowerUp.Remove(name);
     }
+
+    // Check to see if a player has a powerup,
+    // targetPC - Player to check, self for player script is attached to
+    //          -                ; expandable for multiplayer =D
+    // returns if the player has the powerup in their hasPowerUp Dictionary
+    public bool plrHasPowerUp( PlayerController targetPC, string name )
+    {
+        bool val;
+        return hasPowerUp.TryGetValue(name, out val);
+    }
+
 }

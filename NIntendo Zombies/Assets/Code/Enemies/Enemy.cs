@@ -2,11 +2,11 @@
 using System.Collections;
 
 public class Enemy : MonoBehaviour {
-    private GameControllerSingleton gc;
-    private Collider myCollider;
+    //private GameControllerSingleton gc;
+    //private Collider myCollider;
     private Rigidbody rb;
 
-    private bool hasExited=false;
+    //private bool hasExited=false;
     public bool needsUp = false;
 
     public float yForce, dY, rotScal;
@@ -14,19 +14,14 @@ public class Enemy : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        gc = GameControllerSingleton.get();
-        myCollider = GetComponent<Collider>();
-        rb = GetComponent<Rigidbody>();
+        //gc = GameControllerSingleton.get();
+        //myCollider = GetComponent<Collider>();
         if (dY < 0)
             dY = 1;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if ( !hasExited )
-        {
-            myCollider.isTrigger = false;
-        }
 	}
 
     void onTriggerEnter( Collider other )
@@ -43,7 +38,6 @@ public class Enemy : MonoBehaviour {
         {
             needsUp = false;
         }
-        hasExited = true;
         //myCollider.isTrigger = true;
     }
 
