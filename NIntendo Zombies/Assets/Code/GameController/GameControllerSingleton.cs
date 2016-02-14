@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class GameControllerSingleton : ScriptableObject
 {
@@ -77,6 +78,8 @@ public class GameControllerSingleton : ScriptableObject
                 tempPowerUp.sp = null;
                 tempPowerUp.Id = id;
                 powerUpDict.Add(alias,tempPowerUp);
+                Debug.Log(alias + " added.");
+                
             }
         }
     }
@@ -105,6 +108,20 @@ public class GameControllerSingleton : ScriptableObject
 
     public void saveText( string fName, string msg)
     {
+        // Overwrites the file,
+        // We need an append method
         File.WriteAllText(Application.dataPath + "/text/" + fName + ".txt", msg );
+    }
+
+    public void stopTime()
+    {
+        Time.timeScale = 0f;
+    }
+
+    public void pauseGame()
+    {
+        SceneManager.LoadScene("UI", LoadSceneMode.Additive);
+        stopTime();
+
     }
 }

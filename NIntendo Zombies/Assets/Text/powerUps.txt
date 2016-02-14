@@ -7,3 +7,12 @@ Bigger, taller, faster, stronger!
 Fire
 Gives your attacks a firey flavor.
 3
+GreenShell
+A basic ammo
+4
+RedShell
+A not-basic ammo
+5
+BlueShell
+A fuckingawesome ammo
+6
