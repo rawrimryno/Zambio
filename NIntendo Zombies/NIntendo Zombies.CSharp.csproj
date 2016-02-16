@@ -77,6 +77,7 @@
     <Compile Include="Assets\Code\Player\MouseLook.cs" />
     <Compile Include="Assets\Code\Player\PlayerController.cs" />
     <Compile Include="Assets\Code\Player\PlayerMovement.cs" />
+    <Compile Include="Assets\Code\Player\PlayerShoot.cs" />
     <Compile Include="Assets\Code\Player\PowerUpScript.cs" />
   </ItemGroup>
   <ItemGroup>
