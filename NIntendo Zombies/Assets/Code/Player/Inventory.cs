@@ -2,12 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System;
 
 public class Inventory : MonoBehaviour
 {
     private GameControllerSingleton gc;
     private PlayerController pc;
 
+    [Serializable]
     public class ammo
     {
         public int greenShells { get; set; }
@@ -16,6 +18,7 @@ public class Inventory : MonoBehaviour
         public int bulletBills { get; set; }
         public int redBulletBills { get; set; }
     }
+
     public class contents
     {
         public ammo myAmmo
@@ -30,15 +33,8 @@ public class Inventory : MonoBehaviour
             PowerUps = new List<GameControllerSingleton.PowerUp>();
         }
         
-       public string powerUpSave(ref string rString)
+       public void powerUpSave(TextAsset saveFile)
         {
-            Debug.Log("In powerUpSave");
-            foreach (GameControllerSingleton.PowerUp iPowerUp in PowerUps)
-            {
-                rString += iPowerUp.alias + " ";
-                Debug.Log("Added: " + iPowerUp.alias + " to save file.");
-            }
-            return rString;
         }
     }
     public contents myContents;
@@ -68,7 +64,7 @@ public class Inventory : MonoBehaviour
             cPowerUp = gc.getPowerUp(cInfo.collider.tag);
 
             // Player already has the powerup applied to them
-            if ( pc.plrHasPowerUp( pc, cPowerUp.alias ) )
+            if ( pc.plrHasPowerUp( cPowerUp.alias ) )
             {
                 myContents.PowerUps.Add(cPowerUp);
             }
@@ -84,11 +80,7 @@ public class Inventory : MonoBehaviour
     // This is powerups in inventory only, not ammo, and not currently applied powerups
     public void saveContents(TextAsset saveFile)
     {
-        string saveContents;
-        saveContents = null;
-        Debug.Log("Sending contents to saveFile");
-        myContents.powerUpSave(ref saveContents);
-        gc.saveText(saveFile.name, saveContents);
+
     }
 
 }

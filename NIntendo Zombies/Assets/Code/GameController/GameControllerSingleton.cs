@@ -1,21 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
+using System;
 using System.IO;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public class GameControllerSingleton : ScriptableObject
 {
     private static GameControllerSingleton Instance;
     private Inventory plr1Inv;
 
-    public class GameState
-    {
-        // Property Getter and Setter, See C# Tutorial Slides from Class
-        public int Level { get; private set; }
-        public int Wave { get; private set; }
-
-    }
+    public int level;
+    public int wave;
+    public float roundTime=0f;
+    public float timePlayed=0f;
 
     public struct PowerUp
     {
@@ -51,13 +51,18 @@ public class GameControllerSingleton : ScriptableObject
     // Main Game Logic Flow, Coroutine to do time dependent things.
     public void Update()
     {
-
+        timePlayed += Time.deltaTime;
 
     }
 
     // Save/Load State
     public void SaveState(TextAsset saveFile, PlayerController pc)
     {
+        if (saveFile == null)
+        {
+            saveFile = new TextAsset();
+            AssetDatabase.CreateAsset(saveFile, "Assets/Saves/newSave.txt");
+        }
         Debug.Log("Calling GC::SaveState");
         pc.myInv.saveContents(saveFile);
 
@@ -106,13 +111,6 @@ public class GameControllerSingleton : ScriptableObject
         return reward;
     }
 
-    public void saveText( string fName, string msg)
-    {
-        // Overwrites the file,
-        // We need an append method
-        File.WriteAllText(Application.dataPath + "/text/" + fName + ".txt", msg );
-    }
-
     public void stopTime()
     {
         Time.timeScale = 0f;
@@ -122,6 +120,43 @@ public class GameControllerSingleton : ScriptableObject
     {
         SceneManager.LoadScene("UI", LoadSceneMode.Additive);
         stopTime();
-
     }
+    public void SaveGame()
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream fs = File.Create(Application.persistentDataPath + "/gameState.dat");
+        GameState data = new GameState();
+
+        data.wave = wave;
+        data.level = level;
+        data.roundTime = roundTime;
+        data.timePlayed = timePlayed;
+
+        bf.Serialize(fs, data);
+        fs.Close();
+    }
+
+    public void LoadGame()
+    {
+        if (File.Exists(Application.persistentDataPath + "/gameState.dat"))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream fs = File.Open(Application.persistentDataPath + "/gameState.dat", FileMode.Open);
+            GameState data = (GameState) bf.Deserialize(fs);
+            fs.Close();
+
+            wave = data.wave;
+            level = data.level;
+            roundTime = data.roundTime;
+            timePlayed = data.timePlayed;
+        }
+    }
+}
+[Serializable]
+public class GameState
+{
+    public int wave;
+    public int level;
+    public float roundTime;
+    public float timePlayed;
 }
